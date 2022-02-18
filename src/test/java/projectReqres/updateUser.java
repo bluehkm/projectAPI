@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -32,11 +33,11 @@ public class updateUser extends TestBase {
         updateUser.put("last_name", "Watson");
         updateUser.put("avatar", "https://reqres.in/img/faces/3-image.jpg");
 
-        JsonPath jp= (JsonPath) given().log().uri()
+        given().log().uri()
                 .queryParam("id", userID)
                 .contentType(ContentType.JSON)
-                .body(updateUser)
-                .when().put().prettyPeek()
+                .body(updateUser).
+        when().put().prettyPeek()
                 .then().statusCode(200)
                 .body("last_name",is( "Watson"))
                 .extract().jsonPath();
@@ -49,9 +50,12 @@ public class updateUser extends TestBase {
 
     public void getUpdatedUser () {
 
-        Response response = RestAssured.get("/"+userID).prettyPeek();
-        assertEquals(200, response.statusCode());
-        Assertions.assertFalse(response.body().asString().contains("Watson"));
+        given().log().uri()
+                .accept(ContentType.JSON).
+        when().get("/"+userID).prettyPeek().
+        then().statusCode(200)
+                .body("data.last_name", is ("Watson"));
+
 
 
 
