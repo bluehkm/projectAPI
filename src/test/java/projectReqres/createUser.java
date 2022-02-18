@@ -33,15 +33,16 @@ public class createUser extends TestBase {
         newUserMap.put("last_name", "James");
         newUserMap.put("avatar", "https://reqres.in/img/faces/4-image.jpg");
 
-        JsonPath jp= (JsonPath) given().log().uri()
+        JsonPath jsonPath =
+             given().log().uri()
                 .contentType(ContentType.JSON)
-                .body(newUserMap)
-                .when().post().prettyPeek()
-                .then().statusCode(201)
-                .body("first_name",is( "Neo"))
+                .body(newUserMap).
+             when().post().prettyPeek().
+             then().statusCode(201)
+                .body("first_name", is("Neo"))
                 .extract().jsonPath();
 
-    newID=jp.getString("id");
+        newID=jsonPath.getString("id");
 
     }
 

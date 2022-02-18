@@ -6,12 +6,9 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import utility.TestBase;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -39,7 +36,7 @@ public class updateUser extends TestBase {
                 .body(updateUser).
         when().put().prettyPeek()
                 .then().statusCode(200)
-                .body("last_name",is( "Watson"))
+                .body("last_name", is ( "Watson"))
                 .extract().jsonPath();
 
 
